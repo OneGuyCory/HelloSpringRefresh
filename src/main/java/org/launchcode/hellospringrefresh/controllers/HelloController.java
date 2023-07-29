@@ -36,12 +36,50 @@ public class HelloController {
     public String helloForm() {
         return "<html>" +
                 "<body>" +
-                "<form action='hello' method='post'>" + //submit request to /hello
+                "<form action='helloPost' method='post'>" + //submit request to /hello
                 "<input type='text' name='name'>" +
+                "<select name='language'>" +
+                    "<option value=''>--Please choose an option--</option>" +
+                    "<option value='english'>English</option>" +
+                    "<option value='french'>French</option>" +
+                    "<option value='spanish'>Spanish</option>" +
+                    "<option value='italian'>Italian</option>" +
+                    "<option value='german'>German</option>" +
+                "</select>" +
                 "<input type='submit' value='Greet Me!'>" +
                 "</form>" +
                 "</body>" +
                 "</html>";
     }
 
+    @RequestMapping(value="helloPost", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public String helloPost(@RequestParam String name, @RequestParam String language) {
+        if (name == null) {
+            name ="World";
+        }
+
+        return createMessage(name, language);
+    }
+
+    public static String createMessage(String name, String lang) {
+        String message ="";
+        if (lang.equals("english")) {
+            message = "Hello";
+        }
+        else if (lang.equals("french")) {
+            message = "Bonjour";
+        }
+        else if (lang.equals("spanish")) {
+            message = "Hola";
+        }
+        else if (lang.equals("italian")) {
+            message = "Ciao";
+        }
+        else if (lang.equals("german")) {
+            message = "Hallo";
+        }
+
+        return message + " " + name;
+    }
 }
